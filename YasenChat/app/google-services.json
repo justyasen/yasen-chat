@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "109163923479",
+    "project_id": "yasen-chat",
+    "storage_bucket": "yasen-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109163923479:android:7dbf99def38e6be2b4f452",
+        "android_client_info": {
+          "package_name": "com.example.yasenchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109163923479-u5efkhasn8ikocn85klv9633k1j4pisn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnuxzWjHqGyU5eSGbUGqMnDtXrl7Ds3nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109163923479-u5efkhasn8ikocn85klv9633k1j4pisn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
