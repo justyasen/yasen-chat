@@ -41,56 +41,96 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+@Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        //Initializing all buttons/text fields for register/login page.
-        mAuth = FirebaseAuth.getInstance();
-        password = findViewById(R.id.password);
-        email = findViewById(R.id.email);
-        registerButton = findViewById(R.id.registerButton);
-        loginButton = findViewById(R.id.loginButton);
+//Initializing all buttons/text fields for register/login page.
+mAuth = FirebaseAuth.getInstance();
+password = findViewById(R.id.password);
+email = findViewById(R.id.email);
+registerButton = findViewById(R.id.registerButton);
+loginButton = findViewById(R.id.loginButton);
 
-        registerButton.setOnClickListener(new View.OnClickListener()
+registerButton.setOnClickListener(new View.OnClickListener()
+{
+    @Override
+    public void onClick(View v)
+    {
+        //Checking whether email field is empty.
+        if(email.getText().toString().isEmpty())
         {
-            @Override
-            public void onClick(View v)
-            {
-                //Checking whether email field is empty. 
-                if(email.getText().toString().isEmpty())
-                {
-                    Toast.makeText(MainActivity.this , "Please enter your email. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this , "Please enter your email. ", Toast.LENGTH_SHORT).show();
+        }
+        else if (!isEmailValid(email.getText().toString())) //If it isn't empty, we go into the isEmailValid function.
+        {
+            Toast.makeText(MainActivity.this, "Please enter a valid email. ", Toast.LENGTH_SHORT).show();
+        }
+        else if(password.getText().toString().isEmpty())
+        {
+            Toast.makeText(MainActivity.this, "Please enter your password. ", Toast.LENGTH_SHORT).show();
+        }
+        else //If everything passes, we create a user with the given email and password.
+        {
+            mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful())
+                    {
+                        Toast.makeText(MainActivity.this, "Registration Successful ", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else if (!isEmailValid(email.getText().toString())) //If it isn't empty, we go into the isEmailValid function.
-                {
-                    Toast.makeText(MainActivity.this, "Please enter a valid email. ", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(MainActivity.this, "Error in registration: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                else if(password.getText().toString().isEmpty())
-                {
-                    Toast.makeText(MainActivity.this, "Please enter your password. ", Toast.LENGTH_SHORT).show();
-                }
-                else //If everything passes, we create a user with the given email and password.
-                {
-                    mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful())
-                            {
-                                Toast.makeText(MainActivity.this, "Registration Successful ", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "Error in registration: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-
-
-        });
+            });
+        }
     }
+
+
+});
+
+loginButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        if(email.getText().toString().isEmpty())
+        {
+            Toast.makeText(MainActivity.this , "Please enter your email. ", Toast.LENGTH_SHORT).show();
+        }
+        else if (!isEmailValid(email.getText().toString())) //If it isn't empty, we go into the isEmailValid function.
+        {
+            Toast.makeText(MainActivity.this, "Please enter a valid email. ", Toast.LENGTH_SHORT).show();
+        }
+        else if(password.getText().toString().isEmpty())
+        {
+            Toast.makeText(MainActivity.this, "Please enter your password. ", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful())
+                    {
+                        Toast.makeText(MainActivity.this, "Login successful! ", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(MainActivity.this, "Error in login: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+});
+
+}
 }
